@@ -1,0 +1,39 @@
+<div class="login-container">
+  <div class="left-section">
+    <img src="assets/imagens/logo.jpg" alt="Logo Rommanel" class="rommanel-logo" />
+  </div>
+
+  <div class="right-section">
+    <form class="form-logon" [formGroup]="loginForm" (submit)="submitLogin()">
+      <h1>Login</h1>
+      <div class="form">
+        <input formControlName="email"
+               type="text"
+               id="email"
+               name="email"
+               required
+               placeholder="E-mail" />
+      </div>
+      <div class="form">
+        <input formControlName="password"
+               type="password"
+               id="password"
+               name="password"
+               required
+               placeholder="Senha" />
+      </div>
+      <div class="entrar-checkbox">
+        <button class="btn btn-primary" type="submit">Entrar</button>
+      </div>
+      <div class="cadastrar">
+        Se ainda não tiver um cadastro,
+        <a [routerLink]="['/cadastrar']"
+           routerLinkActive="router-link-active"
+           class="cadastrar-link">crie agora</a>
+      </div>
+    </form>
+  </div>
+</div>
+<div *ngIf="showSpinner" class="overlay">
+  <span class="loader"></span>
+</div>

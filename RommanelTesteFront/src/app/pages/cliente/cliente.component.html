@@ -1,0 +1,177 @@
+<app-header></app-header>
+
+<div class="container row col-9" style="margin: 0 auto">
+
+  <form [formGroup]="clienteForm" (submit)="salvarCliente($event)" novalidate>
+
+    <div class="forms-container">
+      <div class="row">
+        <div class="col">
+          <div class="row d-flex align-items-center mb-3">
+            <div class="col-6">
+              <h2 class="mb-0">Clientes</h2>
+            </div>
+          </div>
+
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col" (click)="sort('id')">ID</th>
+                <th scope="col" (click)="sort('name')">Nome</th>
+                <th scope="col" (click)="sort('documentNumber')">CPF/CNPJ</th>
+                <th scope="col" (click)="sort('birthDate')">Data de Nascimento</th>
+                <th scope="col" (click)="sort('phone')">Telefone</th>
+                <th scope="col" (click)="sort('email')">Email</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of clientes">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.documentNumber }}</td>
+                <td>{{ item.birthDate }}</td>
+                <td>{{ item.phone }}</td>
+                <td>{{ item.email }}</td>
+                <td>
+                  <button type="button" class="btn btn-outline-primary btn-sm me-1" title="Editar" (click)="editarCliente(item.id)">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-danger btn-sm" title="Excluir" (click)="excluirCliente(item.id)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nome -->
+    <div class="form-floating mb-1">
+      <input formControlName="name" type="text" id="name" class="form-control" placeholder="Nome" required />
+      <label for="name">Nome *</label>
+      <div class="text-danger small" *ngIf="clienteForm.get('name')?.invalid && clienteForm.get('name')?.touched">
+        Nome é obrigatório.
+      </div>
+    </div>
+
+    <!-- Checkbox: É Empresa -->
+    <div class="form-check mb-1">
+      <input formControlName="isCompany" type="checkbox" id="isCompany" class="form-check-input" />
+      <label for="isCompany" class="form-check-label">É empresa?</label>
+    </div>
+
+    <!-- CNPJ -->
+    <div class="form-floating mb-1" *ngIf="clienteForm.get('isCompany')?.value">
+      <input formControlName="cnpj" type="text" id="cnpj" class="form-control" placeholder="CNPJ" required />
+      <label for="cnpj">CNPJ *</label>
+      <div class="text-danger small" *ngIf="clienteForm.get('cnpj')?.invalid && clienteForm.get('cnpj')?.touched">
+        CNPJ é obrigatório.
+      </div>
+    </div>
+
+    <!-- Checkbox: Isento -->
+    <div class="form-check mb-3" *ngIf="clienteForm.get('isCompany')?.value">
+      <input formControlName="isExempt" type="checkbox" id="isExempt" class="form-check-input" />
+      <label for="isExempt" class="form-check-label">Isento?</label>
+    </div>
+
+    <!-- Inscrição Estadual -->
+    <div class="form-floating mb-1" *ngIf="clienteForm.get('isCompany')?.value && !clienteForm.get('isExempt')?.value">
+      <input formControlName="stateRegistration" type="text" id="stateRegistration" class="form-control" placeholder="Inscrição Estadual" />
+      <label for="stateRegistration">Inscrição Estadual *</label>
+      <div class="text-danger small" *ngIf="clienteForm.get('stateRegistration')?.invalid && clienteForm.get('stateRegistration')?.touched">
+        Inscrição Estadual é obrigatória.
+      </div>
+    </div>
+
+    <!-- CPF -->
+    <div class="form-floating mb-1" *ngIf="!clienteForm.get('isCompany')?.value">
+      <input formControlName="cpf" type="text" id="cpf" class="form-control" placeholder="CPF" required />
+      <label for="cpf">CPF *</label>
+      <div class="text-danger small" *ngIf="clienteForm.get('cpf')?.invalid && clienteForm.get('cpf')?.touched">
+        CPF é obrigatório.
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-floating mb-1">
+      <input formControlName="email" type="email" id="email" class="form-control" placeholder="Email" required />
+      <label for="email">Email *</label>
+      <div class="text-danger small" *ngIf="clienteForm.get('email')?.invalid && clienteForm.get('email')?.touched">
+        Informe um e-mail válido.
+      </div>
+    </div>
+
+    <!-- Data de Nascimento -->
+    <div class="form-floating mb-1">
+      <input formControlName="birthDate" type="date" id="birthDate" class="form-control" placeholder="Data de Nascimento" required />
+      <label for="birthDate">Data de Nascimento *</label>
+      <div class="text-danger small" *ngIf="clienteForm.get('birthDate')?.invalid && clienteForm.get('birthDate')?.touched">
+        Data de nascimento é obrigatória.
+      </div>
+    </div>
+
+    <!-- Telefone -->
+    <div class="form-floating mb-1">
+      <input formControlName="phone" type="text" id="phone" class="form-control" placeholder="Telefone" required />
+      <label for="phone">Telefone *</label>
+      <div class="text-danger small" *ngIf="clienteForm.get('phone')?.invalid && clienteForm.get('phone')?.touched">
+        Telefone é obrigatório.
+      </div>
+    </div>
+
+    <!-- Endereço -->
+    <div class="row mt-3">
+      <div class="col forms-title">
+        <h1 class="bold">Endereço</h1>
+      </div>
+    </div>
+
+    <div formGroupName="address">
+      <div class="form-floating mb-1">
+        <input formControlName="zipCode" type="text" id="zipCode" class="form-control" placeholder="CEP" required />
+        <label for="zipCode">CEP *</label>
+        <div class="text-danger small" *ngIf="clienteForm.get('address.zipCode')?.invalid && clienteForm.get('address.zipCode')?.touched">
+          CEP é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-floating mb-1">
+        <input formControlName="street" type="text" id="street" class="form-control" placeholder="Rua" required />
+        <label for="street">Rua *</label>
+      </div>
+
+      <div class="form-floating mb-1">
+        <input formControlName="number" type="text" id="number" class="form-control" placeholder="Número" required />
+        <label for="number">Número *</label>
+      </div>
+
+      <div class="form-floating mb-1">
+        <input formControlName="neighborhood" type="text" id="neighborhood" class="form-control" placeholder="Bairro" required />
+        <label for="neighborhood">Bairro *</label>
+      </div>
+
+      <div class="form-floating mb-1">
+        <input formControlName="city" type="text" id="city" class="form-control" placeholder="Cidade" required />
+        <label for="city">Cidade *</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input formControlName="state" type="text" id="state" class="form-control" placeholder="Estado" required />
+        <label for="state">Estado *</label>
+      </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="mb-1">
+      <button type="submit" class="btn btn-primary">Salvar</button>
+      <button type="button" class="btn btn-outline-primary reset" (click)="resetForm()">Limpar</button>
+    </div>
+  </form>
+
+
+  
+</div>

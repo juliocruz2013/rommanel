@@ -1,0 +1,37 @@
+<div class="login-container">
+  <div class="left-section">
+    <img src="assets/imagens/logo.jpg" alt="Logo Rommanel" class="rommanel-logo" />
+  </div>
+  <div class="right-section">
+    <form [formGroup]="cadastroForm" (submit)="onSubmit()" class="form-logon">
+      <h1>Cadastro de Usuário</h1>
+      <div class="form-group"></div>
+
+      <div class="form-group">
+        <input formControlName="email" type="email" id="cadastrar-email" name="email" required class="input" placeholder="E-mail" />
+      </div>
+
+      <div class="form-group">
+        <input formControlName="password" type="password" id="cadastrar-senha" name="password" required class="input" placeholder="Senha" />
+      </div>
+
+      <div class="form-group">
+        <input formControlName="passwordConfirmation" type="password" id="cadastrar-confirma-senha" name="passwordConfirmation" required class="input" placeholder="Confirmar Senha" />
+
+      </div>
+      <p class="regra-senha">
+        Senha deve conter: <br />
+        - No mínimo 8 caracteres<br />
+        - Pelo menos 1 caractere maiúsculo<br />
+        - Pelo menos 1 número<br />
+        - Pelo menos 1 caractere especial (!,&#64;,-,_)
+      </p>
+      <div class="botoes">
+        <button type="button" class="button-cancelar" routerLink="/login">
+          Voltar
+        </button>
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+</div>
