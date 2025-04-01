@@ -19,13 +19,13 @@ configuration.SetBasePath(Directory.GetCurrentDirectory())
 Log.Logger = new LoggerConfiguration()
 				.ReadFrom.Configuration(configuration)
 				.Filter.ByExcluding(x => x.Level == LogEventLevel.Warning)
-				.WriteTo.MSSqlServer(Configuration.ConnectionString,
-					sinkOptions: new MSSqlServerSinkOptions
-					{
-						SchemaName = "dbo",
-						AutoCreateSqlTable = true,
-						TableName = "Logs"
-					})
+				 .WriteTo.MSSqlServer(Configuration.ConnectionString,
+				 	sinkOptions: new MSSqlServerSinkOptions
+				 	{
+				 		SchemaName = "dbo",
+				 		AutoCreateSqlTable = true,
+				 		TableName = "Logs"
+				 	})
 				.CreateLogger();
 
 builder.Services.AddCustomFramework();

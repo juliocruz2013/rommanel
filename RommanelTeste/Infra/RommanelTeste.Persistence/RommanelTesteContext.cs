@@ -28,6 +28,7 @@ public class RommanelTesteContext : IdentityDbContext<ApplicationUser, Applicati
         }
         return base.SaveChangesAsync(cancellationToken);
     }
+
     public IExecutionStrategy CreateExecutionStrategy() => Database.CreateExecutionStrategy();
 
     public void SetModifiedState<T>(T entity) => base.Entry(entity).State = EntityState.Modified;

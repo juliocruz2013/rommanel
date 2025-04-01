@@ -6,31 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RommanelTeste.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class add_InitialMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "ApiAuthentication",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(150)", nullable: false),
-                    ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Secret = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AuthenticationEndpoint = table.Column<string>(type: "nvarchar(150)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ApiAuthentication", x => x.Id)
-                        .Annotation("SqlServer:Clustered", true);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -68,42 +48,6 @@ namespace RommanelTeste.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id)
-                        .Annotation("SqlServer:Clustered", true);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GlobalConfiguration",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmailLogin = table.Column<string>(type: "varchar(150)", nullable: false),
-                    EmailPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GlobalConfiguration", x => x.Id)
-                        .Annotation("SqlServer:Clustered", true);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LogActivity",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    LogLevel = table.Column<int>(type: "int", nullable: false),
-                    User = table.Column<string>(type: "varchar(100)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    TypeUser = table.Column<string>(type: "varchar(20)", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LogActivity", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                 });
 
@@ -226,8 +170,8 @@ namespace RommanelTeste.Persistence.Migrations
                     Phone = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     IsCompany = table.Column<bool>(type: "bit", nullable: false),
-                    StateRegistration = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    IsExempt = table.Column<bool>(type: "bit", nullable: false),
+                    StateRegistration = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    IsExempt = table.Column<bool>(type: "bit", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()")
                 },
@@ -241,56 +185,6 @@ namespace RommanelTeste.Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Team",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(256)", nullable: false),
-                    LeaderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Team", x => x.Id)
-                        .Annotation("SqlServer:Clustered", true);
-                    table.ForeignKey(
-                        name: "FK_Team_AspNetUsers_LeaderId",
-                        column: x => x.LeaderId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TemplateHistory",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(150)", nullable: false),
-                    Template = table.Column<string>(type: "nvarchar(MAX)", nullable: false),
-                    Options = table.Column<string>(type: "nvarchar(MAX)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
-                    TemplateStatus = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TemplateHistory", x => x.Id)
-                        .Annotation("SqlServer:Clustered", true);
-                    table.ForeignKey(
-                        name: "FK_TemplateHistory_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -319,66 +213,6 @@ namespace RommanelTeste.Persistence.Migrations
                         principalTable: "Customer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "History",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    TeamId = table.Column<int>(type: "int", nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_History", x => x.Id)
-                        .Annotation("SqlServer:Clustered", true);
-                    table.ForeignKey(
-                        name: "FK_History_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_History_Team_Id",
-                        column: x => x.Id,
-                        principalTable: "Team",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TeamMember",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TeamId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    IsLeader = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TeamMember", x => x.Id)
-                        .Annotation("SqlServer:Clustered", true);
-                    table.ForeignKey(
-                        name: "FK_TeamMember_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TeamMember_Team_TeamId",
-                        column: x => x.TeamId,
-                        principalTable: "Team",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -437,41 +271,30 @@ namespace RommanelTeste.Persistence.Migrations
                 table: "Customer",
                 column: "UserId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_History_Id",
-                table: "History",
-                column: "Id");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_History_UserId",
-                table: "History",
-                column: "UserId");
+            migrationBuilder.Sql(@"
+                INSERT INTO AspNetRoles VALUES (
+                    'b4bd26d9-9797-452e-98c0-d5dfe85a1dac', 'Teste', 'TESTE', null
+                );
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Team_LeaderId",
-                table: "Team",
-                column: "LeaderId");
+                INSERT INTO AspNetUsers (
+                    Id, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed,
+                    PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumber,
+                    PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd,
+                    LockoutEnabled, AccessFailedCount
+                ) VALUES (
+                    '15deb81d-17e0-44b0-8875-bf91b5ae5b29', 'teste', 'TESTE', 'teste@teste.com', 'TESTE@TESTE.COM', 0,
+                    'AQAAAAIAAYagAAAAEL7jXDNEW6jD/T0eLiSePmIDh4xz7D/NEe2iB0igNSwgCt9Y7fu163Ef7pzJ7qr/Wg==',
+                    'VQEG4ZZVYJGU25CEOCCB6EN6BUMMBKK3', '1c97fcc7-ddb4-40c2-a594-707af89dcbcc',
+                    null, 0, 0, NULL, 1, 0
+                );
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Team_Status",
-                table: "Team",
-                column: "Status");
+                INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (
+                    '15deb81d-17e0-44b0-8875-bf91b5ae5b29', 'b4bd26d9-9797-452e-98c0-d5dfe85a1dac'
+                );
+            ");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_TeamMember_TeamId_UserId",
-                table: "TeamMember",
-                columns: new[] { "TeamId", "UserId" },
-                unique: true);
 
-            migrationBuilder.CreateIndex(
-                name: "IX_TeamMember_UserId",
-                table: "TeamMember",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TemplateHistory_UserId",
-                table: "TemplateHistory",
-                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -479,9 +302,6 @@ namespace RommanelTeste.Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Address");
-
-            migrationBuilder.DropTable(
-                name: "ApiAuthentication");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -499,31 +319,17 @@ namespace RommanelTeste.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "GlobalConfiguration");
-
-            migrationBuilder.DropTable(
-                name: "History");
-
-            migrationBuilder.DropTable(
-                name: "LogActivity");
-
-            migrationBuilder.DropTable(
-                name: "TeamMember");
-
-            migrationBuilder.DropTable(
-                name: "TemplateHistory");
-
-            migrationBuilder.DropTable(
                 name: "Customer");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Team");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.Sql(@"DELETE FROM AspNetUserRoles WHERE UserId = '15deb81d-17e0-44b0-8875-bf91b5ae5b29';
+                                   DELETE FROM AspNetUsers WHERE Id = '15deb81d-17e0-44b0-8875-bf91b5ae5b29';
+                                   DELETE FROM AspNetRoles WHERE Id = 'b4bd26d9-9797-452e-98c0-d5dfe85a1dac';");
         }
     }
 }

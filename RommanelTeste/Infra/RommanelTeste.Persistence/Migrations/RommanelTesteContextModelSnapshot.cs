@@ -420,8 +420,8 @@ namespace RommanelTeste.Persistence.Migrations
             modelBuilder.Entity("RommanelTeste.Domain.Entities.Address", b =>
                 {
                     b.HasOne("RommanelTeste.Domain.Entities.Customer", null)
-                        .WithMany("Address")
-                        .HasForeignKey("CustomerId")
+                        .WithOne("Address")
+                        .HasForeignKey("RommanelTeste.Domain.Entities.Address", "CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -444,7 +444,8 @@ namespace RommanelTeste.Persistence.Migrations
 
             modelBuilder.Entity("RommanelTeste.Domain.Entities.Customer", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("Address")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

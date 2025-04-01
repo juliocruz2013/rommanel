@@ -12,8 +12,8 @@ using RommanelTeste.Persistence;
 namespace RommanelTeste.Persistence.Migrations
 {
     [DbContext(typeof(RommanelTesteContext))]
-    [Migration("20250324180509_add_InitialMigration")]
-    partial class add_InitialMigration
+    [Migration("20250401030703_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -198,56 +198,6 @@ namespace RommanelTeste.Persistence.Migrations
                     b.ToTable("Address", (string)null);
                 });
 
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.ApiAuthentication", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AuthenticationEndpoint")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasColumnOrder(5);
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("Secret")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnOrder(4);
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnOrder(6);
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
-
-                    b.ToTable("ApiAuthentication", (string)null);
-                });
-
             modelBuilder.Entity("RommanelTeste.Domain.Entities.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
@@ -377,7 +327,6 @@ namespace RommanelTeste.Persistence.Migrations
                         .HasColumnOrder(8);
 
                     b.Property<bool?>("IsExempt")
-                        .IsRequired()
                         .HasColumnType("bit")
                         .HasColumnOrder(10);
 
@@ -399,7 +348,6 @@ namespace RommanelTeste.Persistence.Migrations
                         .HasColumnOrder(6);
 
                     b.Property<string>("StateRegistration")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)")
                         .HasColumnOrder(9);
@@ -419,277 +367,6 @@ namespace RommanelTeste.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Customer", (string)null);
-                });
-
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.GlobalConfiguration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("EmailLogin")
-                        .IsRequired()
-                        .HasColumnType("varchar(150)")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("EmailPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
-
-                    b.ToTable("GlobalConfiguration", (string)null);
-                });
-
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.History", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4)
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(500)")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnOrder(2);
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
-
-                    b.HasIndex("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("History", (string)null);
-                });
-
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.LogActivity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4)
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<int>("LogLevel")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(6);
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("TypeUser")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasColumnOrder(5);
-
-                    b.Property<string>("User")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)")
-                        .HasColumnOrder(3);
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
-
-                    b.ToTable("LogActivity", (string)null);
-                });
-
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.Team", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4)
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("LeaderId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasColumnOrder(2);
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
-
-                    b.HasIndex("LeaderId");
-
-                    b.HasIndex("Status");
-
-                    b.ToTable("Team", (string)null);
-                });
-
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.TeamMember", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(5)
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("IsLeader")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnOrder(6);
-
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnOrder(3);
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("TeamId", "UserId")
-                        .IsUnique();
-
-                    b.ToTable("TeamMember", (string)null);
-                });
-
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.TemplateHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6)
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(7)
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("varchar(150)")
-                        .HasColumnOrder(3);
-
-                    b.Property<string>("Options")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(MAX)")
-                        .HasColumnOrder(5);
-
-                    b.Property<string>("Template")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(MAX)")
-                        .HasColumnOrder(4);
-
-                    b.Property<int>("TemplateStatus")
-                        .HasColumnType("int")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnOrder(2);
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TemplateHistory", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -745,13 +422,11 @@ namespace RommanelTeste.Persistence.Migrations
 
             modelBuilder.Entity("RommanelTeste.Domain.Entities.Address", b =>
                 {
-                    b.HasOne("RommanelTeste.Domain.Entities.Customer", "Customer")
-                        .WithMany("Address")
-                        .HasForeignKey("CustomerId")
+                    b.HasOne("RommanelTeste.Domain.Entities.Customer", null)
+                        .WithOne("Address")
+                        .HasForeignKey("RommanelTeste.Domain.Entities.Address", "CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("RommanelTeste.Domain.Entities.Customer", b =>
@@ -765,75 +440,15 @@ namespace RommanelTeste.Persistence.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.History", b =>
-                {
-                    b.HasOne("RommanelTeste.Domain.Entities.Team", null)
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("RommanelTeste.Domain.Entities.ApplicationUser", null)
-                        .WithMany("Histories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.Team", b =>
-                {
-                    b.HasOne("RommanelTeste.Domain.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("LeaderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.TeamMember", b =>
-                {
-                    b.HasOne("RommanelTeste.Domain.Entities.Team", null)
-                        .WithMany("Members")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("RommanelTeste.Domain.Entities.ApplicationUser", null)
-                        .WithMany("Teams")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.TemplateHistory", b =>
-                {
-                    b.HasOne("RommanelTeste.Domain.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany("TemplateHistories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-                });
-
             modelBuilder.Entity("RommanelTeste.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Navigation("Customers");
-
-                    b.Navigation("Histories");
-
-                    b.Navigation("Teams");
-
-                    b.Navigation("TemplateHistories");
                 });
 
             modelBuilder.Entity("RommanelTeste.Domain.Entities.Customer", b =>
                 {
-                    b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("RommanelTeste.Domain.Entities.Team", b =>
-                {
-                    b.Navigation("Members");
+                    b.Navigation("Address")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
