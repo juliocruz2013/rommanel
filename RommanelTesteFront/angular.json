@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "deploy/rommanel-teste-front",
+            "outputPath": "dist/rommanel-teste-front",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [

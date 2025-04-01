@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    build:
+      context: ./sqlserver-init
+      dockerfile: dockerfile
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "Kbck6!p8RS"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Kbck6!p8RS", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 120s 
+
+  api:
+    build:
+      context: ./RommanelTeste
+    container_name: cliente-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=RommanelTeste;User Id=sa;Password=Kbck6!p8RS;MultipleActiveResultSets=true;TrustServerCertificate=True
+    ports:
+      - "6584:80"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+
+  front:
+    build:
+      context: ./RommanelTesteFront
+      dockerfile: dockerfile
+    container_name: cliente-front
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
